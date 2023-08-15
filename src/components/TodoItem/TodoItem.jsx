@@ -25,7 +25,6 @@ const TodoItem = ({ tarea, id, onDelete }) => {
   };
 
   const handleDelete = () => {
-    alert("¿Estás seguro de que quieres eliminar esta tarea?");
     onDelete(tarea);
   };
   return (
