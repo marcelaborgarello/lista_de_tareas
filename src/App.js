@@ -1,6 +1,6 @@
 import "./App.css";
 //importar bootstrap
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 //importar useState
 import { useState } from "react";
