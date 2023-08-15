@@ -9,7 +9,7 @@ import { TodoList } from "./components/TodoList/TodoLIst";
 function App() {
   const [value, setValue] = useState("");
   const [tareas, setTareas] = useState(
-    window.localStorage.getItem("tareas")
+    localStorage.getItem("tareas")
       ? JSON.parse(localStorage.getItem("tareas"))
       : []
   );
@@ -18,7 +18,7 @@ function App() {
   const setLocalStorage = (tareas) => {
     try {
       setTareas(tareas);
-      window.localStorage.setItem("tareas", JSON.stringify(tareas));
+      localStorage.setItem("tareas", JSON.stringify(tareas));
     } catch (error) {
       console.log(error);
     }
