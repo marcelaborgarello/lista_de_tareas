@@ -1,10 +1,24 @@
 import TodoItem from "../TodoItem/TodoItem";
 import "./TodoList.css";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const TodoList = (props) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  useEffect(() => {
+    // Recuperar tareas desde localStorage cuando el componente se monta
+    const savedTareas = localStorage.getItem("tareas");
+    if (savedTareas) {
+      props.setTareas(JSON.parse(savedTareas));
+    }
+  }, []);
+
+  useEffect(() => {
+    // Almacenar tareas en localStorage cuando cambian
+    localStorage.setItem("tareas", JSON.stringify(props.tareas));
+    // console.log(props.tareas);
+  }, [props.tareas]);
 
   const onDelete = (id) => {
     const updatedTareas = props.tareas.filter((tarea) => tarea.id !== id);

@@ -1,8 +1,5 @@
 import "./App.css";
-//importar bootstrap
-// import "bootstrap/dist/css/bootstrap.min.css";
 
-//importar useState
 import { useState } from "react";
 
 //importar componentes
@@ -11,8 +8,21 @@ import { TodoList } from "./components/TodoList/TodoLIst";
 
 function App() {
   const [value, setValue] = useState("");
-  const [tareas, setTareas] = useState([]);
+  const [tareas, setTareas] = useState(
+    localStorage.getItem("tareas")
+      ? JSON.parse(localStorage.getItem("tareas"))
+      : []
+  );
   const [id, setId] = useState(0);
+
+  const setLocalStorage = (tareas) => {
+    try {
+      setTareas(tareas);
+      localStorage.setItem("tareas", JSON.stringify(tareas));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -20,7 +30,7 @@ function App() {
       id: id,
       text: value,
     };
-    setTareas([...tareas, newTarea]);
+    setLocalStorage([...tareas, newTarea]);
     setId(id + 1);
   };
 
@@ -34,7 +44,12 @@ function App() {
         handleChange={handleChange}
         tareas={tareas}
       />
-      <TodoList tareas={tareas} id={id} setTareas={setTareas} />
+      <TodoList
+        tareas={tareas}
+        id={id}
+        setTareas={setTareas}
+        setLocalStorage={setLocalStorage}
+      />
     </div>
   );
 }
