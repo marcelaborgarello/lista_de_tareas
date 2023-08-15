@@ -8,7 +8,7 @@ export const TodoList = (props) => {
 
   useEffect(() => {
     // Recuperar tareas desde localStorage cuando el componente se monta
-    const savedTareas = localStorage.getItem("tareas");
+    const savedTareas = window.localStorage.getItem("tareas");
     if (savedTareas) {
       props.setTareas(JSON.parse(savedTareas));
     }
@@ -16,7 +16,7 @@ export const TodoList = (props) => {
 
   useEffect(() => {
     // Almacenar tareas en localStorage cuando cambian
-    localStorage.setItem("tareas", JSON.stringify(props.tareas));
+    window.localStorage.setItem("tareas", JSON.stringify(props.tareas));
     // console.log(props.tareas);
   }, [props.tareas]);
 
