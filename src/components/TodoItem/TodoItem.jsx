@@ -1,11 +1,23 @@
 import "./TodoItem.css";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const TodoItem = ({ tarea, id, onDelete }) => {
-  const [text, setText] = useState(tarea);
   const [isEditing, setIsEditing] = useState(false);
-  const [isComplete, setIsComplete] = useState(false);
+  
+  const initialIsComplete = JSON.parse(localStorage.getItem(`isComplete_${id}`)) || false;
+  const [isComplete, setIsComplete] = useState(initialIsComplete);
+  
+  const initialText = JSON.parse(localStorage.getItem(`text_${id}`)) || tarea;
+  const [editedText, setEditedText] = useState(initialText);
+
+  useEffect(() => {
+    localStorage.setItem(`isComplete_${id}`, JSON.stringify(isComplete));
+  }, [isComplete, id]);
+
+  useEffect(() => {
+    localStorage.setItem(`text_${id}`, JSON.stringify(editedText));
+  }, [editedText, id]);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -14,10 +26,11 @@ const TodoItem = ({ tarea, id, onDelete }) => {
   const handleSave = (e) => {
     e.preventDefault();
     setIsEditing(false);
+    setEditedText(editedText);
   };
 
   const handleChange = (e) => {
-    setText(e.target.value);
+    setEditedText(e.target.value);
   };
 
   const handleCheckboxChange = () => {
@@ -44,7 +57,7 @@ const TodoItem = ({ tarea, id, onDelete }) => {
           <form onSubmit={handleSave}>
             <input
               type="text"
-              value={text}
+              value={editedText}
               onChange={handleChange}
               onBlur={handleSave}
             />
@@ -55,7 +68,7 @@ const TodoItem = ({ tarea, id, onDelete }) => {
               isComplete ? "p-todo-item p-todo-item__completed" : "p-todo-item"
             }
           >
-            {text}
+            {editedText}
           </p>
         )}
       </div>

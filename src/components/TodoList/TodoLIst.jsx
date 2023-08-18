@@ -3,36 +3,36 @@ import "./TodoList.css";
 
 import { useState, useEffect } from "react";
 
-export const TodoList = (props) => {
+export const TodoList = ({ tareas, setTareas }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
     // Recuperar tareas desde localStorage cuando el componente se monta
     const savedTareas = localStorage.getItem("tareas");
     if (savedTareas) {
-      props.setTareas(JSON.parse(savedTareas));
+      setTareas(JSON.parse(savedTareas));
     }
-  }, []);
+  }, [setTareas]);
 
   useEffect(() => {
     // Almacenar tareas en localStorage cuando cambian
-    localStorage.setItem("tareas", JSON.stringify(props.tareas));
-    // console.log(props.tareas);
-  }, [props.tareas]);
+    localStorage.setItem("tareas", JSON.stringify(tareas));
+    // console.log(tareas);
+  }, [tareas]);
 
   const onDelete = (id) => {
-    const updatedTareas = props.tareas.filter((tarea) => tarea.id !== id);
-    props.setTareas(updatedTareas);
+    const updatedTareas = tareas.filter((tarea) => tarea.id !== id);
+    setTareas(updatedTareas);
   };
 
   const handleDeleteAll = () => {
-    if (props.tareas.length >= 2) {
+    if (tareas.length >= 2) {
       setShowConfirmation(true);
     }
   };
 
   const handleConfirmDeleteAll = () => {
-    props.setTareas([]);
+    setTareas([]);
     setShowConfirmation(false);
   };
 
@@ -42,11 +42,11 @@ export const TodoList = (props) => {
 
   return (
     <div className="todo-list">
-      {props.tareas.length === 0 ? (
+      {tareas.length === 0 ? (
         <p>No hay tareas</p>
       ) : (
         <>
-          {props.tareas.map((tarea) => (
+          {tareas.map((tarea) => (
             <TodoItem
               key={tarea.id}
               tarea={tarea.text}
@@ -73,7 +73,7 @@ export const TodoList = (props) => {
               </button>
             </div>
           ) : (
-            props.tareas.length >= 2 && (
+            tareas.length >= 2 && (
               <button
                 onClick={handleDeleteAll}
                 className="btn btn-dark btn-todo-list__delete-all"
