@@ -21,8 +21,12 @@ export const TodoList = ({ tareas, setTareas }) => {
   }, [tareas]);
 
   const onDelete = (id) => {
-    const updatedTareas = tareas.filter((tarea) => tarea.id !== id);
-    setTareas(updatedTareas);
+    const shouldDelete = window.confirm("¿Estás seguro de que deseas borrar esta tarea?");
+
+    if (shouldDelete) {
+      const updatedTareas = tareas.filter((tarea) => tarea.id !== id);
+      setTareas(updatedTareas);
+    }
   };
 
   const handleDeleteAll = () => {

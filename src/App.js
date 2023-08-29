@@ -1,6 +1,6 @@
 import "./App.css";
-
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 //importar componentes
 import InputForm from "./components/InputForm/InputForm";
@@ -27,11 +27,11 @@ function App() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const newTarea = {
-      id: id,
+      id: uuidv4(),
       text: value,
     };
     setLocalStorage([...tareas, newTarea]);
-    setId(id + 1);
+    setId(id);
   };
 
   const handleChange = (event) => {
